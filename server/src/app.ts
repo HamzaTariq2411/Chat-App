@@ -1,0 +1,23 @@
+import express from 'express';
+import cors from 'cors';
+import { env } from '@/config/env';
+import { errorHandler, notFoundHandler } from '@/middlewares/error.middleware';
+import authRoutes from '@/routes/auth.routes';
+
+const app = express();
+
+app.use(cors({ origin: env.CLIENT_URL, credentials: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Health check
+app.get('/api/health', (_req, res) => {
+  res.json({ success: true, message: 'Server is healthy 🚀' });
+});
+
+app.use('/api/auth', authRoutes);
+
+app.use(notFoundHandler);
+app.use(errorHandler);
+
+export default app;
