@@ -6,7 +6,6 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
   try {
 
     const result = await registerUser(req.body);
-    console.log(result);
     
     res.status(201).json(success(result, 'Account created successfully'));
   } catch (err) {

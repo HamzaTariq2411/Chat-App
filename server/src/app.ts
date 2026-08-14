@@ -3,6 +3,8 @@ import cors from 'cors';
 import { env } from '@/config/env';
 import { errorHandler, notFoundHandler } from '@/middlewares/error.middleware';
 import authRoutes from '@/routes/auth.routes';
+import chatRoutes from './routes/chat.routes';
+import messageRoutes from './routes/message.routes';
 
 const app = express();
 
@@ -16,6 +18,8 @@ app.get('/api/health', (_req, res) => {
 });
 
 app.use('/api/auth', authRoutes);
+app.use('/api/chats', chatRoutes);
+app.use('/api/messages', messageRoutes);
 
 app.use(notFoundHandler);
 app.use(errorHandler);
