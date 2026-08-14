@@ -1,6 +1,8 @@
 import { Server as HTTPServer } from 'http';
 import { Server as SocketServer } from 'socket.io';
 import { env } from '@/config/env';
+import { socketAuthMiddleware, AuthenticatedSocket } from '@/sockets/socketAuth';
+import { registerChatHandlers } from '@/sockets/chat.socket';
 
 export const initSocket = (httpServer: HTTPServer) => {
   const io = new SocketServer(httpServer, {
@@ -10,11 +12,15 @@ export const initSocket = (httpServer: HTTPServer) => {
     },
   });
 
-  io.on('connection', (socket) => {
-    console.log('🔌 New socket connected:', socket.id);
+  io.use(socketAuthMiddleware);
+
+  io.on('connection', (socket: AuthenticatedSocket) => {
+    console.log('🔌 Connected:', socket.id, 'userId:', socket.userId);
+
+    registerChatHandlers(io, socket);
 
     socket.on('disconnect', () => {
-      console.log('❌ Socket disconnected:', socket.id);
+      console.log('❌ Disconnected:', socket.id);
     });
   });
 
