@@ -14,7 +14,7 @@ export const sendMessage = async (req: Request, res: Response, next: NextFunctio
 export const listMessages = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const cursor = req.query.cursor as string | undefined;
-    const messages = await getChatMessages(req.params.chatId, req.user!.id, cursor);
+    const messages = await getChatMessages(req.params.chatId as string, req.user!.id, cursor);
     res.status(200).json(success(messages, 'Messages fetched'));
   } catch (err) {
     next(err);
