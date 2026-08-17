@@ -9,6 +9,12 @@ const envSchema = z.object({
   JWT_SECRET: z.string().min(10, 'JWT_SECRET must be at least 10 characters'),
   JWT_EXPIRES_IN: z.string().default('7d'),
   CLIENT_URL: z.string().default('http://localhost:3000'),
+
+  BOT_PROVIDER: z.enum(['ollama', 'groq']).default('ollama'),
+  OLLAMA_URL: z.string().default('http://localhost:11434'),
+  OLLAMA_MODEL: z.string().default('llama3.2'),
+  GROQ_API_KEY: z.string().optional(),
+  GROQ_MODEL: z.string().default('llama-3.3-70b-versatile'),
 });
 
 const parsed = envSchema.safeParse(process.env);
