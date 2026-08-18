@@ -4,10 +4,10 @@
   "main": "index.js",
   "scripts": {
     "postinstall": "prisma generate",
-    "dev": "tsx watch -r tsconfig-paths/register src/server.ts",
-    "build": "tsc",
-    "start": "node -r tsconfig-paths/register dist/server.js",
-    "seed": "tsx prisma/seed.ts"
+     "dev": "tsx watch src/server.ts",
+  "build": "tsc && tsc-alias",
+  "start": "node dist/server.js",
+  "seed": "tsx prisma/seed.ts"
   },
   "keywords": [],
   "author": "",
@@ -34,7 +34,7 @@
     "@types/node": "^26.1.2",
     "@types/pg": "^8.20.4",
     "prisma": "^7.9.1",
-    "tsconfig-paths": "^4.2.0",
+    "tsc-alias": "^1.9.2",
     "tsx": "^4.23.11",
     "typescript": "^7.0.2"
   }
