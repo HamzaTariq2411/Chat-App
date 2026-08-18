@@ -16,6 +16,13 @@ enum SenderType {
   BOT
 }
 
+enum FriendshipStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+
 model User {
   id        String   @id @default(uuid())
   name      String
@@ -31,6 +38,9 @@ model User {
   chatMembers   ChatMember[]
   messagesSent  Message[]     @relation("MessageSender")
   readReceipts  MessageRead[]
+
+   sentRequests     Friendship[] @relation("SentRequests")
+  receivedRequests Friendship[] @relation("ReceivedRequests")
 
   @@map("users")
 }
@@ -88,4 +98,20 @@ model MessageRead {
 
   @@unique([messageId, userId])
   @@map("message_reads")
+}
+
+
+model Friendship {
+  id          String           @id @default(uuid())
+  requesterId String
+  recipientId String
+  status      FriendshipStatus @default(PENDING)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  requester User @relation("SentRequests", fields: [requesterId], references: [id], onDelete: Cascade)
+  recipient User @relation("ReceivedRequests", fields: [recipientId], references: [id], onDelete: Cascade)
+
+  @@unique([requesterId, recipientId])
+  @@map("friendships")
 }

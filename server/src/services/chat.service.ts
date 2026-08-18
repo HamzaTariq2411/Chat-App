@@ -1,6 +1,7 @@
 import prisma from '@/config/db';
 import { ApiError } from '@/utils/apiResponse';
 import type { CreateChatInput } from '@/validators/chat.validator';
+import { areFriends } from '@/services/friend.service';
 
 // Shape used everywhere we return a chat with members
 const chatInclude = {
@@ -15,6 +16,8 @@ const chatInclude = {
   },
 };
 
+
+
 export const createOrGetChat = async (currentUserId: string, input: CreateChatInput) => {
   const { memberIds, type, name } = input;
 
@@ -22,40 +25,17 @@ export const createOrGetChat = async (currentUserId: string, input: CreateChatIn
     throw new ApiError(400, 'Group chats require a name');
   }
 
-  const allMemberIds = Array.from(new Set([currentUserId, ...memberIds]));
-
-  // For PRIVATE chats: check if a chat between exactly these 2 users already exists
-  if (type === 'PRIVATE' && allMemberIds.length === 2) {
-    const existing = await prisma.chat.findFirst({
-      where: {
-        type: 'PRIVATE',
-        AND: allMemberIds.map((id) => ({
-          members: { some: { userId: id } },
-        })),
-      },
-      include: chatInclude,
-    });
-
-    if (existing) return existing;
+  // Friends-only enforcement for private chats (bot is exempt)
+  if (type === 'PRIVATE' && memberIds.length === 1) {
+    const otherUser = await prisma.user.findUnique({ where: { id: memberIds[0] } });
+    if (otherUser && !otherUser.isBot) {
+      const friends = await areFriends(currentUserId, memberIds[0]);
+      if (!friends) {
+        throw new ApiError(403, 'You can only message users who are your friends');
+      }
+    }
   }
-
-  const chat = await prisma.chat.create({
-    data: {
-      type,
-      name: type === 'GROUP' ? name : null,
-      members: {
-        create: allMemberIds.map((userId) => ({
-          userId,
-          isAdmin: userId === currentUserId,
-        })),
-      },
-    },
-    include: chatInclude,
-  });
-
-  return chat;
-};
-
+}
 export const getUserChats = async (userId: string) => {
   const chats = await prisma.chat.findMany({
     where: { members: { some: { userId } } },
