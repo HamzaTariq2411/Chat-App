@@ -5,8 +5,10 @@ import type { User } from '@/types';
 interface AuthState {
   user: (User & { email: string }) | null;
   token: string | null;
+  hasHydrated: boolean;
   setAuth: (user: User & { email: string }, token: string) => void;
   logout: () => void;
+  setHasHydrated: (state: boolean) => void;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -14,11 +16,16 @@ export const useAuthStore = create<AuthState>()(
     (set) => ({
       user: null,
       token: null,
+      hasHydrated: false,
       setAuth: (user, token) => set({ user, token }),
       logout: () => set({ user: null, token: null }),
+      setHasHydrated: (state) => set({ hasHydrated: state }),
     }),
     {
-      name: 'penn-chat-auth', // localStorage key
+      name: 'penn-chat-auth',
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true);
+      },
     }
   )
 );

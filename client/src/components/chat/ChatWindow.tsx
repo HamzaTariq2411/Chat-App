@@ -81,7 +81,7 @@ export const ChatWindow = () => {
             {/* Header */}
             <div className="h-16 border-b border-neutral-800 flex items-center gap-3 px-5">
                 <div className="relative">
-                    <div className={`w-9 h-9 rounded-full flex items-center justify-center text-xs font-semibold text-white ${info.isBot ? 'bg-gradient-to-br from-violet-600 to-indigo-600' : 'bg-neutral-700'}`}>
+                    <div className={`w-9 h-9 rounded-full flex items-center justify-center text-xs font-semibold text-white ${info.isBot ? 'bg-linear-to-br from-violet-600 to-indigo-600' : 'bg-neutral-700'}`}>
                         {info.isBot ? <Bot className="w-4 h-4" /> : getInitials(info.name)}
                     </div>
                     {info.isOnline && (

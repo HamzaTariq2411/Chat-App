@@ -49,7 +49,7 @@ export const Sidebar = () => {
             activeChat?.id === botChat.id && 'bg-neutral-900'
           )}
         >
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-full bg-linear-to-br from-violet-600 to-indigo-600 flex items-center justify-center">
             <Bot className="w-5 h-5 text-white" />
           </div>
           <div>

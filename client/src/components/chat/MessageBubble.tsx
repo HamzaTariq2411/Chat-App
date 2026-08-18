@@ -11,7 +11,7 @@ export const MessageBubble = ({ message, isOwn }: { message: Message; isOwn: boo
       {!isOwn && (
         <div className={clsx(
           'w-7 h-7 rounded-full flex items-center justify-center text-xs shrink-0 self-end',
-          isBot ? 'bg-gradient-to-br from-violet-600 to-indigo-600' : 'bg-neutral-700'
+          isBot ? 'bg-linear-to-br from-violet-600 to-indigo-600' : 'bg-neutral-700'
         )}>
           {isBot ? <Bot className="w-3.5 h-3.5 text-white" /> : message.sender.name[0]}
         </div>
@@ -23,7 +23,7 @@ export const MessageBubble = ({ message, isOwn }: { message: Message; isOwn: boo
             isOwn
               ? 'bg-indigo-600 text-white rounded-br-md'
               : isBot
-              ? 'bg-gradient-to-br from-violet-950 to-indigo-950 border border-indigo-800/50 text-neutral-100 rounded-bl-md'
+              ? 'bg-linear-to-br from-violet-950 to-indigo-950 border border-indigo-800/50 text-neutral-100 rounded-bl-md'
               : 'bg-neutral-800 text-neutral-100 rounded-bl-md'
           )}
         >
