@@ -21,3 +21,8 @@ export const fetchChatMessages = async (chatId: string) => {
   const res = await api.get<ApiEnvelope<Message[]>>(`/messages/${chatId}`);
   return res.data.data;
 };
+
+export const createChat = async (memberId: string) => {
+  const res = await api.post<ApiEnvelope<Chat>>('/chats', { memberIds: [memberId] });
+  return res.data.data;
+};

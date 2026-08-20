@@ -4,10 +4,10 @@
   "main": "index.js",
   "scripts": {
     "postinstall": "prisma generate",
-     "dev": "tsx watch src/server.ts",
-  "build": "tsc && tsc-alias",
-  "start": "node dist/server.js",
-  "seed": "tsx prisma/seed.ts"
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc && tsc-alias",
+    "start": "node dist/server.js",
+    "seed": "tsx prisma/seed.ts"
   },
   "keywords": [],
   "author": "",

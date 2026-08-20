@@ -4,6 +4,7 @@ import { ApiError } from '@/utils/apiResponse';
 const publicUserSelect = {
   id: true,
   name: true,
+  username: true,
   email: true,
   avatar: true,
   isBot: true,
@@ -13,22 +14,20 @@ const publicUserSelect = {
 
 // ---- Search users to add as friends (excludes self, bots, and existing friends/pending) ----
 export const searchUsers = async (currentUserId: string, query: string) => {
-  if (!query || query.trim().length < 2) return [];
+  if (!query || query.trim().length < 1) return [];
+
+  const cleaned = query.trim().toLowerCase().replace(/^@/, '');
 
   const users = await prisma.user.findMany({
     where: {
       id: { not: currentUserId },
       isBot: false,
-      OR: [
-        { name: { contains: query, mode: 'insensitive' } },
-        { email: { contains: query, mode: 'insensitive' } },
-      ],
+      username: { startsWith: cleaned, mode: 'insensitive' },
     },
     select: publicUserSelect,
     take: 10,
   });
 
-  // attach friendship status relative to current user for each result
   const results = await Promise.all(
     users.map(async (user) => {
       const friendship = await prisma.friendship.findFirst({
@@ -39,7 +38,6 @@ export const searchUsers = async (currentUserId: string, query: string) => {
           ],
         },
       });
-
       return {
         ...user,
         friendshipStatus: friendship?.status ?? null,

@@ -7,8 +7,8 @@ interface ApiEnvelope<T> {
   data: T;
 }
 
-export const registerRequest = async (name: string, email: string, password: string) => {
-  const res = await api.post<ApiEnvelope<AuthResponse>>('/auth/register', { name, email, password });
+export const registerRequest = async (name: string, username: string, email: string, password: string) => {
+  const res = await api.post<ApiEnvelope<AuthResponse>>('/auth/register', { name, username, email, password });
   return res.data.data;
 };
 

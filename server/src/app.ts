@@ -6,7 +6,7 @@ import authRoutes from '@/routes/auth.routes';
 import chatRoutes from './routes/chat.routes';
 import messageRoutes from './routes/message.routes';
 import { Request, Response } from 'express';
-
+import friendRoutes from '@/routes/friend.routes';
 const app = express();
 
 app.use(cors({ origin: env.CLIENT_URL, credentials: true }));
@@ -22,6 +22,7 @@ app.get('/health', (_req: Request, res: Response) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/chats', chatRoutes);
 app.use('/api/messages', messageRoutes);
+app.use('/api/friends', friendRoutes);
 
 app.use(notFoundHandler);
 app.use(errorHandler);

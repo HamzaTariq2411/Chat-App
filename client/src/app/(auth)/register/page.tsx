@@ -13,7 +13,7 @@ export default function RegisterPage() {
   const router = useRouter();
   const setAuth = useAuthStore((s) => s.setAuth);
 
-  const [form, setForm] = useState({ name: '', email: '', password: '' });
+  const [form, setForm] = useState({ name: '', username: '', email: '', password: '' });
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -22,7 +22,7 @@ export default function RegisterPage() {
     setError('');
     setIsLoading(true);
     try {
-      const { user, token } = await registerRequest(form.name, form.email, form.password);
+      const { user, token } = await registerRequest(form.name, form.username, form.email, form.password);
       setAuth(user, token);
       router.push('/chat');
     } catch (err: any) {
@@ -48,6 +48,13 @@ export default function RegisterPage() {
             placeholder="Hamza Ahmed"
             value={form.name}
             onChange={(e) => setForm({ ...form, name: e.target.value })}
+            required
+          />
+          <Input
+            label="Username"
+            placeholder="hamza_dev"
+            value={form.username}
+            onChange={(e) => setForm({ ...form, username: e.target.value.toLowerCase() })}
             required
           />
           <Input
