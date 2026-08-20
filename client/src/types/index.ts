@@ -1,4 +1,3 @@
-// client/src/types/index.ts
 export interface User {
   id: string;
   name: string;
@@ -25,6 +24,7 @@ export interface Message {
   content: string;
   createdAt: string;
   sender: User;
+  failed?: boolean;
 }
 
 export interface Chat {

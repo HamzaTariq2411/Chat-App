@@ -11,9 +11,10 @@ export const Button = ({ isLoading, variant = 'primary', className, children, di
   return (
     <button
       className={clsx(
-        'inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium transition-all',
-        'disabled:opacity-50 disabled:cursor-not-allowed',
-        variant === 'primary' && 'bg-indigo-600 hover:bg-indigo-500 text-white',
+        'inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all active:scale-[0.98]',
+        'disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100',
+        variant === 'primary' &&
+          'bg-linear-to-b from-indigo-500 to-indigo-600 hover:from-indigo-400 hover:to-indigo-500 text-white shadow-lg shadow-indigo-950/40',
         variant === 'ghost' && 'bg-transparent hover:bg-neutral-800 text-neutral-300',
         className
       )}

@@ -7,7 +7,8 @@ import { loginRequest } from '@/lib/auth';
 import { useAuthStore } from '@/store/authStore';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
-import { MessageCircle } from 'lucide-react';
+import { Logo } from '@/components/ui/Logo';
+import { ArrowRight } from 'lucide-react';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -33,15 +34,20 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-neutral-950 px-4">
+    <div className="min-h-screen flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
-        <div className="flex items-center gap-2 justify-center mb-8">
-          <MessageCircle className="w-7 h-7 text-indigo-500" />
-          <h1 className="text-xl font-semibold text-white">PennChat</h1>
+        <div className="flex justify-center mb-10">
+          <Logo size="lg" />
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4 bg-neutral-900 border border-neutral-800 rounded-2xl p-6">
-          <h2 className="text-lg font-medium text-white mb-1">Welcome back</h2>
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-5 bg-neutral-900/60 backdrop-blur-xl border border-neutral-800/80 rounded-3xl p-7 shadow-2xl shadow-black/40"
+        >
+          <div className="mb-1">
+            <h2 className="text-lg font-semibold text-white">Welcome back</h2>
+            <p className="text-sm text-neutral-500 mt-0.5">Log in to continue to your chats</p>
+          </div>
 
           <Input
             label="Email"
@@ -60,15 +66,20 @@ export default function LoginPage() {
             required
           />
 
-          {error && <p className="text-sm text-red-400">{error}</p>}
+          {error && (
+            <p className="text-sm text-red-400 bg-red-950/40 border border-red-900/50 rounded-lg px-3 py-2">
+              {error}
+            </p>
+          )}
 
-          <Button type="submit" isLoading={isLoading} className="w-full">
+          <Button type="submit" isLoading={isLoading} className="w-full group">
             Log in
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
           </Button>
 
-          <p className="text-sm text-neutral-400 text-center pt-2">
+          <p className="text-sm text-neutral-500 text-center pt-1">
             Don&apos;t have an account?{' '}
-            <Link href="/register" className="text-indigo-400 hover:underline">
+            <Link href="/register" className="text-indigo-400 hover:text-indigo-300 font-medium transition-colors">
               Sign up
             </Link>
           </p>
